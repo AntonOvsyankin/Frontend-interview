@@ -3,7 +3,7 @@ function throttle(func, wait) {
     let lastArguments = null;
     let lastThis = null;
   
-    return function() {
+    function wrapper() {
   
       if (isThrottled) {
         lastArguments = arguments;
@@ -18,10 +18,11 @@ function throttle(func, wait) {
       setTimeout(() => {
         isThrottled = false;
         if (lastArguments) {
-          func.apply(lastThis, lastArguments);
+          wrapper.apply(lastThis, lastArguments);
           lastArguments = lastThis = null;
         }
       }, wait) 
     }
-  
+
+    return wrapper;
   }
